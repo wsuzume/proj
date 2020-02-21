@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='proj',
-    author='wsuzume'
+    author='wsuzume',
     install_requires=[],
     entry_points={
         "console_scripts": [
