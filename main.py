@@ -66,6 +66,10 @@ def main():
     #parser.add_argument('--status') #プロジェクトのステータス
     #parser.add_argument('--todo') #TODO
     #parser.add_argument('--show-todo') #TODOの一覧
+    #parser.add_argument('--schedule') #予定
+    #parser.add_argument('--show-schedule') #予定の一覧
+    #parser.add_argument('--set-origin') #GitHubと連携
+    #parser.add_argument('--global') #globalで設定
 
     args = parser.parse_args()
 
@@ -92,7 +96,8 @@ def main():
                 json.dump(projects, f, indent=2)
             sys.exit(0)
 
-    print(projects)
+    for k, v in projects.items():
+        print(k, ':', v)
     sys.exit(0)
 
 
