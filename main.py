@@ -59,6 +59,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--echo', nargs='?', default=None, const='', metavar='project_name')
     parser.add_argument('--init', nargs='?', default=None, const='')
+    parser.add_argument('--remove', nargs='?', default=None, const='', metavar='project_name')
     parser.add_argument('--reset-profile', default=0)
     #parser.add_argument('--continue') #直前のプロジェクトへ移動
     #parser.add_argument('--begin') #現在のディレクトリでスタートスクリプトを実行
@@ -95,6 +96,18 @@ def main():
             with open(project_settings, 'w') as f:
                 json.dump(projects, f, indent=2)
             sys.exit(0)
+
+    if args.remove is not None:
+        if args.remove in projects:
+            path = projects[args.remove]
+            projects.pop(args.remove)
+            with open(project_settings, 'w') as f:
+                json.dump(projects, f, indent=2)
+            print('removed:', args.remove, path)
+            sys.exit(0)
+        else:
+            print(f'Error: project \'{args.echo}\' is not registered.')
+            sys.exit(1)
 
     for k, v in projects.items():
         print(k, ':', v)
