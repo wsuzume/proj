@@ -57,13 +57,15 @@ def main():
     projects = load_config()
 
     parser = argparse.ArgumentParser()
+    # echo project path
     parser.add_argument('--echo', nargs='?', default=None, const='', metavar='project_name')
-    parser.add_argument('--init', nargs='?', default=None, const='')
+    # register current directory as [project_name]
+    parser.add_argument('--init', nargs='?', default=None, const='', metavar='project_name')
+    # remove registered project from list
     parser.add_argument('--remove', nargs='?', default=None, const='', metavar='project_name')
     parser.add_argument('--reset-profile', default=0)
     #parser.add_argument('--continue') #直前のプロジェクトへ移動
     #parser.add_argument('--begin') #現在のディレクトリでスタートスクリプトを実行
-    #parser.add_argument('--unsub') #登録解除
     #parser.add_argument('--status') #プロジェクトのステータス
     #parser.add_argument('--todo') #TODO
     #parser.add_argument('--show-todo') #TODOの一覧
