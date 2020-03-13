@@ -63,7 +63,21 @@ def main():
     parser.add_argument('--init', nargs='?', default=None, const='', metavar='project_name')
     # remove registered project from list
     parser.add_argument('--remove', nargs='?', default=None, const='', metavar='project_name')
-    parser.add_argument('--reset-profile', default=0)
+    # register startup script for the current project
+    ## startup script is executed when you enter the project by proj command
+    parser.add_argument('--set-startup', nargs='?', default=None, const='', metavar='file_name')
+    # set alias
+    ## if local alias;
+    ##     this alias is automatically activated when you enter the project by proj command,
+    ##     and automatically unaliased when you leave the project by proj command.
+    ##     the configuration is saved in '.proj/aliases'
+    ## if global alias;
+    ##     this alias is always activated automatically.
+    ##     the configuration is saved in '~/.config/proj/aliases'
+    parser.add_argument('--alias')
+    # remove alias
+    parser.add_argument('--unalias')
+    #parser.add_argument('--reset-profile', default=0)
     #parser.add_argument('--continue') #直前のプロジェクトへ移動
     #parser.add_argument('--begin') #現在のディレクトリでスタートスクリプトを実行
     #parser.add_argument('--status') #プロジェクトのステータス
@@ -110,6 +124,9 @@ def main():
         else:
             print(f'Error: project \'{args.echo}\' is not registered.')
             sys.exit(1)
+
+    #if args.set_startup is not None:
+    #    if args.set_startup
 
     for k, v in projects.items():
         print(k, ':', v)
