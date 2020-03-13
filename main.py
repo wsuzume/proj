@@ -119,8 +119,8 @@ def main():
 
     if args.init is not None:
         if args.init == '':
-            print('init:', args.init)
-            sys.exit(0)
+            print(f'Error: project name required.')
+            sys.exit(1)
         elif args.init in projects:
             print(f'Error: project \'{args.init}\' is already registered.')
             print(f'project directory -> {projects[args.init]}')
