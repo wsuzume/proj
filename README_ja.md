@@ -35,3 +35,28 @@ source ~/.config/proj/projrc
 ```
 
 を追記する。
+
+## Automatic Script
+```
+# global
+~/.config/proj/
+  ├ scripts/
+  │  ├ start
+  │  └ end
+  └ aliases/
+     ├ aliases.json
+     ├ set_aliases
+     └ unset_aliases
+
+# local
+./proj/
+  ├ scripts/
+  │  ├ start
+  │  └ end
+  └ aliases/
+     ├ aliases.json
+     ├ set_aliases
+     └ unset_aliases
+```
+
+

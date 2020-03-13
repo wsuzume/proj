@@ -80,15 +80,31 @@ def main():
     parser.add_argument('--alias')
     # remove alias
     parser.add_argument('--unalias')
+    # activate local project settings
+    ## 1. activate local aliases
+    ## 2. run the script file which registered as --startwith
+    parser.add_argument('--activate')
+    # deactivate local project settings
+    ## 1. run the script file which registered as --endwith
+    ## 2. deactivate local aliases
+    parser.add_argument('--deactivate')
+    # backup local setting to the directory which registered as --set-origin
+    parser.add_argument('--backup')
+    # restore local setting from the directory which registered as --set-origin
+    parser.add_argument('--restore')
+    # set backup directory
+    parser.add_argument('--set-origin')
+    # set remote backup
+    parser.add_argument('--remote-backup')
+    # show config and status of the project
+    parser.add_argument('--show')
     #parser.add_argument('--reset-profile', default=0)
     #parser.add_argument('--continue') #直前のプロジェクトへ移動
     #parser.add_argument('--begin') #現在のディレクトリでスタートスクリプトを実行
-    #parser.add_argument('--status') #プロジェクトのステータス
     #parser.add_argument('--todo') #TODO
     #parser.add_argument('--show-todo') #TODOの一覧
     #parser.add_argument('--schedule') #予定
     #parser.add_argument('--show-schedule') #予定の一覧
-    #parser.add_argument('--set-origin') #GitHubと連携
     #parser.add_argument('--global') #globalで設定
 
     args = parser.parse_args()
