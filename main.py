@@ -65,7 +65,10 @@ def main():
     parser.add_argument('--remove', nargs='?', default=None, const='', metavar='project_name')
     # register startup script for the current project
     ## startup script is executed when you enter the project by proj command
-    parser.add_argument('--set-startup', nargs='?', default=None, const='', metavar='file_name')
+    parser.add_argument('--startwith', nargs='?', default=None, const='', metavar='file_name')
+    # register leaving script for the current project
+    ## leaving script is executed when you leave the project by proj command
+    parser.add_argument('--endwith', nargs='?', default=None, const='', metavar='file_name')
     # set alias
     ## if local alias;
     ##     this alias is automatically activated when you enter the project by proj command,
