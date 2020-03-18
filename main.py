@@ -125,7 +125,8 @@ def main():
                 local_conf = json.load(f)
 
         if 'start' in local_conf and local_conf['start'] != '':
-            print(local_conf['start'])
+            abspath = os.path.abspath(local_conf_dir)
+            print(os.path.join(abspath, 'scripts', local_conf['start']))
 
         sys.exit(0)
 
