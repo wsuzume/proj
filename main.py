@@ -134,9 +134,12 @@ def main():
 
         if 'start' in local_conf and local_conf['start'] != '':
             abspath = os.path.abspath(local_conf_dir)
-            print(os.path.join(abspath, 'scripts', local_conf['start']))
+            script_file = os.path.join(abspath, 'scripts', local_conf['start'])
+            if os.path.exists(script_file):
+                print(script_file)
+                sys.exit(0)
 
-        sys.exit(0)
+        sys.exit(1)
 
     if args.deactivate:
         if os.path.exists(os.path.join(local_conf_dir, 'config.json')):
@@ -145,9 +148,12 @@ def main():
 
         if 'end' in local_conf and local_conf['end'] != '':
             abspath = os.path.abspath(local_conf_dir)
-            print(os.path.join(abspath, 'scripts', local_conf['end']))
+            script_file = os.path.join(abspath, 'scripts', local_conf['end'])
+            if os.path.exists(script_file):
+                print(script_file)
+                sys.exit(0)
 
-        sys.exit(0)
+        sys.exit(1)
 
     if args.init is not None:
         if os.path.exists(os.path.join(local_conf_dir, 'config.json')):
