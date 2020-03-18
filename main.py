@@ -27,7 +27,8 @@ if [[ $1 =~ ^[^\-] ]] ; then
         fi
 
         # change directory
-        cd $result ; pwd
+        cd $result
+        echo "Project:" `pwd`
 
         # activate if the start script is setted
         activate_script=$(exec $gpython $gproj --activate)
@@ -38,8 +39,12 @@ if [[ $1 =~ ^[^\-] ]] ; then
     elif test $exit_code -eq 1 ; then
         echo $result
     fi
-elif [ $1 = "--activate" ] || [ $1 = "--deactivate" ] ; then
-    source $(exec $gpython $gproj $1)
+elif [ $# -eq 1 ] && [ "$1" = "--activate" ] || [ "$1" = "--deactivate" ] ; then
+    specified_script=$(exec $gpython $gproj $1)
+    exit_code=$?
+    if test $exit_code -eq 0 ; then
+        source $specified_script
+    fi
 else
     (exec $gpython $gproj "$@")
 fi
