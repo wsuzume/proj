@@ -137,7 +137,7 @@ def main():
 
         if 'end' in local_conf and local_conf['end'] != '':
             abspath = os.path.abspath(local_conf_dir)
-            print(os.path.join(abspath, 'scripts', local_conf['start']))
+            print(os.path.join(abspath, 'scripts', local_conf['end']))
 
         sys.exit(0)
 
