@@ -40,6 +40,9 @@ source ~/.config/proj/projrc
 ```
 # global
 ~/.config/proj/
+  ├ proj
+  ├ projrc
+  ├ config.json
   ├ scripts/
   │  ├ start
   │  └ end
@@ -50,6 +53,7 @@ source ~/.config/proj/projrc
 
 # local
 ./proj/
+  ├ config.json
   ├ scripts/
   │  ├ start
   │  └ end
