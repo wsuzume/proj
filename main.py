@@ -31,6 +31,8 @@ proj_script = os.path.join(conf_dir, 'proj')
 projrc = os.path.join(conf_dir, 'projrc')
 project_settings = os.path.join(conf_dir, 'projects.json')
 
+local_conf_dir = os.path.expanduser('./.proj')
+
 def check_config():
     if not os.path.exists(conf_dir):
         print('proj config directory does not exists.')
@@ -66,9 +68,11 @@ def main():
     # register startup script for the current project
     ## startup script is executed when you enter the project by proj command
     parser.add_argument('--startwith', nargs='?', default=None, const='', metavar='file_name')
+    parser.add_argument('--echo-startwith', nargs='?', default=None, const='', metavar='file_name')
     # register leaving script for the current project
     ## leaving script is executed when you leave the project by proj command
     parser.add_argument('--endwith', nargs='?', default=None, const='', metavar='file_name')
+    parser.add_argument('--echo-endwith', nargs='?', default=None, const='', metavar='file_name')
     # set alias
     ## if local alias;
     ##     this alias is automatically activated when you enter the project by proj command,
@@ -83,11 +87,11 @@ def main():
     # activate local project settings
     ## 1. activate local aliases
     ## 2. run the script file which registered as --startwith
-    parser.add_argument('--activate')
+    parser.add_argument('--activate', action='store_true')
     # deactivate local project settings
     ## 1. run the script file which registered as --endwith
     ## 2. deactivate local aliases
-    parser.add_argument('--deactivate')
+    parser.add_argument('--deactivate', action='store_true')
     # backup local setting to the directory which registered as --set-origin
     parser.add_argument('--backup')
     # restore local setting from the directory which registered as --set-origin
@@ -98,13 +102,6 @@ def main():
     parser.add_argument('--remote-backup')
     # show config and status of the project
     parser.add_argument('--show')
-    #parser.add_argument('--reset-profile', default=0)
-    #parser.add_argument('--continue') #直前のプロジェクトへ移動
-    #parser.add_argument('--begin') #現在のディレクトリでスタートスクリプトを実行
-    #parser.add_argument('--todo') #TODO
-    #parser.add_argument('--show-todo') #TODOの一覧
-    #parser.add_argument('--schedule') #予定
-    #parser.add_argument('--show-schedule') #予定の一覧
     #parser.add_argument('--global') #globalで設定
 
     args = parser.parse_args()
@@ -117,7 +114,35 @@ def main():
             print(f'Error: project \'{args.echo}\' is not registered.')
             sys.exit(1)
 
+    local_conf = {
+        'start': '',
+        'end': '',
+    }
+
+    if args.activate:
+        if os.path.exists(os.path.join(local_conf_dir, 'config.json')):
+            with open(os.path.join(local_conf_dir, 'config.json'), 'r') as f:
+                local_conf = json.load(f)
+
+        if 'start' in local_conf and local_conf['start'] != '':
+            print(local_conf['start'])
+
+        sys.exit(0)
+
+    if args.deactivate:
+        if os.path.exists(os.path.join(local_conf_dir, 'config.json')):
+            with open(os.path.join(local_conf_dir, 'config.json'), 'r') as f:
+                local_conf = json.load(f)
+
+        if 'end' in local_conf and local_conf['end'] != '':
+            print(local_conf['end'])
+
+        sys.exit(0)
+
     if args.init is not None:
+        if os.path.exists(os.path.join(local_conf_dir, 'config.json')):
+            print('already registered')
+            sys.exit(0)
         if args.init == '':
             print(f'Error: project name required.')
             sys.exit(1)
@@ -126,10 +151,12 @@ def main():
             print(f'project directory -> {projects[args.init]}')
             sys.exit(1)
         else:
-            print(f'OK:', os.getcwd())
+            print('OK:', os.getcwd())
             projects[args.init] = os.getcwd()
             with open(project_settings, 'w') as f:
                 json.dump(projects, f, indent=2)
+            with open(os.path.join(local_conf_dir, 'config.json'), 'w') as f:
+                json.dump(local_conf, f, indent=2)
             sys.exit(0)
 
     if args.remove is not None:
