@@ -9,14 +9,22 @@ script_content = """\
 gpython=${PYENV_ROOT}/versions/$(pyenv global)/bin/python
 gproj=${PYENV_ROOT}/versions/$(pyenv global)/bin/proj
 
-if test $# -eq 1 && [[ $1 =~ ^[^\-] ]] ; then
-    result=(exec $gpython $gproj --echo $1)
+if [[ $1 =~ ^[^\-] ]] ; then
+    result=$(exec $gpython $gproj --echo $1)
     exit_code=$?
     if test $exit_code -eq 0 ; then
+        if test $# -eq 1 ; then
+            unset PROJ_ARGS
+        else
+            PROJ_ARGS=${@:2}
+        fi
         cd $result ; pwd
+        source $(exec $gpython $gproj --activate)
     elif test $exit_code -eq 1 ; then
         echo $result
     fi
+elif [ $1 = "--activate" ] || [ $1 = "--deactivate" ] ; then
+    source $(exec $gpython $gproj $1)
 else
     (exec $gpython $gproj "$@")
 fi
@@ -180,16 +188,6 @@ def main():
         print(k, ':', v)
     sys.exit(0)
 
-
-    #print(projects)
-    alias = []
-    for k, v in projects.items():
-        #print(k, v)
-        alias.append(f'alias {k}="cd \'{v}\' ; pwd"')
-
-    with open(os.path.join(conf_dir, 'config'), 'w') as f:
-        for line in alias:
-            f.write(line + '\n')
 
 if __name__ == '__main__':
     main()
