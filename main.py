@@ -18,8 +18,23 @@ if [[ $1 =~ ^[^\-] ]] ; then
         else
             PROJ_ARGS=${@:2}
         fi
+
+        # deactivate if the end script is setted
+        deactivate_script=$(exec $gpython $gproj --deactivate)
+        deactivate_exit_code=$?
+        if test $deactivate_exit_code -eq 0 ; then
+            source $deactivate_script
+        fi
+
+        # change directory
         cd $result ; pwd
-        source $(exec $gpython $gproj --activate)
+
+        # activate if the start script is setted
+        activate_script=$(exec $gpython $gproj --activate)
+        activate_exit_code=$?
+        if test $activate_exit_code -eq 0 ; then
+            source $activate_script
+        fi
     elif test $exit_code -eq 1 ; then
         echo $result
     fi
